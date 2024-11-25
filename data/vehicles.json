@@ -1,4 +1,22 @@
 [
-    {"id": 1, "type": "Truck", "capacity": 10},
-    {"id": 2, "type": "Van", "capacity": 5}
+    {
+        "id": 1,
+        "type": "Truck",
+        "capacity": 10
+    },
+    {
+        "id": 2,
+        "type": "Van",
+        "capacity": 5
+    },
+    {
+        "name": "MAZ300",
+        "capacity": 200,
+        "speed": 90.0
+    },
+    {
+        "name": "MAZ400",
+        "capacity": 300,
+        "speed": 100.0
+    }
 ]

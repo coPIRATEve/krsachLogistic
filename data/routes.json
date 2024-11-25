@@ -1,0 +1,14 @@
+[
+    {
+        "index": 1,
+        "start": "Minsk",
+        "end": "Gomel",
+        "distance": 340.0
+    },
+    {
+        "index": 2,
+        "start": "Minsk",
+        "end": "Gomel",
+        "distance": 300.0
+    }
+]
