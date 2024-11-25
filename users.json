@@ -1,0 +1,23 @@
+[
+    {
+        "login": "admin",
+        "password": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
+        "role": "admin"
+    },
+    {
+        "username": "Tam",
+        "phone": "+375291231212"
+    },
+    {
+        "username": "Ivan",
+        "phone": "+375295675654"
+    },
+    {
+        "username": "hjhj",
+        "phone": "+374344565465"
+    },
+    {
+        "username": "\u043a\u0435\u043a",
+        "phone": "+56565656568"
+    }
+]
