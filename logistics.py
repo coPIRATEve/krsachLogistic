@@ -64,7 +64,6 @@ class LogisticsSystem:
             print(f"Маршрут с индексом {index} не найден!")
 
     def find_optimal_vehicle(self, route):
-        """Находит лучший транспорт для маршрута."""
         best_vehicle = min(
             (vehicle for vehicle in self.vehicles if vehicle["capacity"] >= route.get("weight", 0)),
             key=lambda v: route["distance"] / v["speed"],
