@@ -50,24 +50,44 @@ class LogisticsSystem:
         for route in self.routes:
             print(f"{route['index']}. {route['start']} -> {route['end']} ({route['distance']} км)")
 
-    def select_optimal_route(self, index):
-        """Позволяет выбрать оптимальный маршрут по индексу."""
-        route = next((route for route in self.routes if route["index"] == index), None)
-        if route:
-            print(f"\nВы выбрали маршрут: {route['start']} -> {route['end']} ({route['distance']} км).")
-            best_vehicle = self.find_optimal_vehicle(route)
-            if best_vehicle:
-                print(f"Используемое транспортное средство: {best_vehicle['name']} (грузоподъемность: {best_vehicle['capacity']} кг, скорость: {best_vehicle['speed']} км/ч).")
-            else:
-                print("Нет подходящего транспорта для выбранного маршрута.")
-        else:
-            print(f"Маршрут с индексом {index} не найден!")
+    def find_optimal_route(self):
+        """Находит все возможные комбинации маршрутов и транспортных средств с расчетом времени."""
+        if not self.routes or not self.vehicles:
+            print("Нет доступных маршрутов или транспортных средств!")
+            return []
 
-    def find_optimal_vehicle(self, route):
-        best_vehicle = min(
-            (vehicle for vehicle in self.vehicles if vehicle["capacity"] >= route.get("weight", 0)),
-            key=lambda v: route["distance"] / v["speed"],
-            default=None
-        )
-        return best_vehicle
+        results = []
+        for route in self.routes:
+            for idx, vehicle in enumerate(self.vehicles, start=1):
+                time = route["distance"] / vehicle["speed"]
+                results.append({
+                    "route_index": route["index"],
+                    "vehicle_index": idx,
+                    "route": f"{route['start']} -> {route['end']}",
+                    "vehicle": vehicle["name"],
+                    "time": time
+                })
+        return results
+
+    def select_optimal_route(self):
+        """Отображает результаты расчета времени маршрутов и позволяет выбрать лучший вариант."""
+        results = self.find_optimal_route()
+        if not results:
+            return
+
+        print("\nДоступные комбинации маршрутов и транспортных средств:")
+        for idx, result in enumerate(results, start=1):
+            print(f"{idx}. Маршрут {result['route']} с транспортом {result['vehicle']} займет {result['time']:.2f} часов.")
+
+        try:
+            choice = int(input("\nВведите номер выбранного варианта: ").strip())
+            if 1 <= choice <= len(results):
+                selected = results[choice - 1]
+                print(f"\nВы выбрали маршрут {selected['route']} с транспортом {selected['vehicle']}.")
+                print(f"Время в пути: {selected['time']:.2f} часов.")
+            else:
+                print("Ошибка: выбранный номер вне диапазона!")
+        except ValueError:
+            print("Ошибка: введите числовой номер варианта!")
+
 
