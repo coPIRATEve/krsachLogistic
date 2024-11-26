@@ -10,7 +10,6 @@ def is_positive_number(value):
         return False
 
 def validate_distance(distance):
-    """Проверяет корректность ввода расстояния."""
     if not is_positive_number(distance):
         return "Расстояние должно быть положительным числом!"
     return None
