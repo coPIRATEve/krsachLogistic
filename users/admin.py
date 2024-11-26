@@ -76,17 +76,9 @@ class Admin:
 
     def add_user(self):
         username = input("Введите имя нового пользователя: ")
-        if any(user["username"] == username for user in self.users):
-            print("Ошибка: пользователь с таким именем уже существует.")
-            return
-
-        role = input("Введите роль (admin/user): ").lower()
-
-        if role not in ["admin", "user"]:
-            print("Ошибка: роль должна быть 'admin' или 'user'.")
-            return
-
         self.users.append({"username": username})
+        phone = input("Введите номер телефона нового пользователя: ")
+        self.users.append({"phone": phone})
         self.save_users()
         print(f"Пользователь {username} успешно добавлен.")
 
@@ -111,4 +103,4 @@ class Admin:
 
         print("\nСписок пользователей:")
         for user in self.users:
-            print(f"Логин: {user['username']}, Роль: {user['phone']}")
+            print(f"Имя: {user['username']}, Телефон: {user['phone']}")

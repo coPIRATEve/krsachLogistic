@@ -19,7 +19,7 @@ class User:
                 return json.load(file)
         return []
 
-    def save_user(self):
+    def save_users(self):
         """Сохраняет текущего пользователя в файл, если его еще нет в списке пользователей."""
         if not any(user["username"] == self.username for user in self.users):
             self.users.append({"username": self.username, "phone": self.phone_number})
