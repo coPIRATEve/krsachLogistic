@@ -75,33 +75,30 @@ class Admin:
                 print("Ошибка: неверный ввод!")
 
     def add_user(self):
-        """Добавление нового пользователя."""
-        login = input("Введите логин нового пользователя: ")
-        if any(user["login"] == login for user in self.users):
-            print("Ошибка: пользователь с таким логином уже существует.")
+        username = input("Введите имя нового пользователя: ")
+        if any(user["username"] == username for user in self.users):
+            print("Ошибка: пользователь с таким именем уже существует.")
             return
 
-        password = input("Введите пароль: ")
-        hashed_password = self.hash_password(password)
         role = input("Введите роль (admin/user): ").lower()
 
         if role not in ["admin", "user"]:
             print("Ошибка: роль должна быть 'admin' или 'user'.")
             return
 
-        self.users.append({"login": login, "password": hashed_password, "role": role})
+        self.users.append({"username": username})
         self.save_users()
-        print(f"Пользователь {login} с ролью {role} успешно добавлен.")
+        print(f"Пользователь {username} успешно добавлен.")
 
     def delete_user(self):
         """Удаление пользователя."""
-        login = input("Введите логин пользователя для удаления: ")
+        username = input("Введите имя пользователя для удаления: ")
 
         for user in self.users:
-            if user["login"] == login:
+            if user["username"] == username:
                 self.users.remove(user)
                 self.save_users()
-                print(f"Пользователь {login} успешно удален.")
+                print(f"Пользователь {username} успешно удален.")
                 return
 
         print("Ошибка: пользователь с таким логином не найден.")
@@ -114,4 +111,4 @@ class Admin:
 
         print("\nСписок пользователей:")
         for user in self.users:
-            print(f"Логин: {user['login']}, Роль: {user['role']}")
+            print(f"Логин: {user['username']}, Роль: {user['phone']}")

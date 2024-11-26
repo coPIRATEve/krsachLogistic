@@ -11,11 +11,10 @@ def main_menu():
             print("0. Выход")
 
             option = input("Введите номер пункта меню: ").strip()
-
             if option == "1":
                 admin = Admin()
                 if admin.login():
-                    admin_menu(admin, logistics_system)
+                    admin_menu(admin)
             elif option == "2":
                 username = input("Введите ваше имя: ").strip()
                 phone_number = input("Введите номер телефона: ").strip()
@@ -30,7 +29,8 @@ def main_menu():
             print(f"Ошибка в главном меню: {e}")
 
 
-def admin_menu(admin, logistics_system):
+def admin_menu(admin):
+    logistics_system = LogisticsSystem()
     while True:
         try:
             print("\n--- Меню администратора ---")
@@ -82,7 +82,8 @@ def user_menu(user, logistics_system):
         try:
             print(f"\n--- Меню пользователя ({user.username}) ---")
             print("1. Просмотреть маршруты")
-            print("2. Выбрать маршрут и транспорт")
+            print("2. Выбрать маршрут и транспорт (оптимальный)")
+            print("3. Рассчитать время для всех маршрутов и транспортов")
             print("0. Назад")
 
             option = input("Введите номер пункта меню: ").strip()
@@ -90,7 +91,13 @@ def user_menu(user, logistics_system):
             if option == "1":
                 logistics_system.show_routes()
             elif option == "2":
-                select_route(logistics_system)
+                logistics_system.select_optimal_route()
+            elif option == "3":
+                results = logistics_system.find_optimal_route()
+                if results:
+                    print("\nВремя для всех маршрутов и транспортов:")
+                    for idx, result in enumerate(results, start=1):
+                        print(f"{idx}. Маршрут {result['route']} с транспортом {result['vehicle']} займет {result['time']:.2f} часов.")
             elif option == "0":
                 break
             else:
@@ -99,10 +106,4 @@ def user_menu(user, logistics_system):
             print(f"Ошибка в меню пользователя: {e}")
 
 
-def select_route(logistics_system):
-    try:
-        logistics_system.show_routes()
-        index = int(input("Введите индекс маршрута: ").strip())
-        logistics_system.select_optimal_route(index)
-    except ValueError:
-        print("Ошибка: индекс маршрута должен быть числом!")
+
