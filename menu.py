@@ -33,7 +33,6 @@ def main_menu():
 
 
 def meneger_menu(logistics_system):
-    """Меню для менеджера."""
     while True:
         try:
             print(f"\n--- Меню менеджера ---")
