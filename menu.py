@@ -7,7 +7,8 @@ def main_menu():
         try:
             print("\n--- Добро пожаловать в логистическую систему ---")
             print("1. Войти как Администратор")
-            print("2. Войти как Пользователь")
+            print("2. Войти как Менеджер")
+            print("3. Войти как Пользователь")
             print("0. Выход")
 
             option = input("Введите номер пункта меню: ").strip()
@@ -16,6 +17,8 @@ def main_menu():
                 if admin.login():
                     admin_menu(admin)
             elif option == "2":
+                meneger_menu(logistics_system)
+            elif option == "3":
                 username = input("Введите ваше имя: ").strip()
                 phone_number = input("Введите номер телефона: ").strip()
                 user = User(username, phone_number)
@@ -29,24 +32,41 @@ def main_menu():
             print(f"Ошибка в главном меню: {e}")
 
 
+def meneger_menu(logistics_system):
+    """Меню для менеджера."""
+    while True:
+        try:
+            print(f"\n--- Меню менеджера ---")
+            print("1. Добавить маршрут")
+            print("2. Добавить транспорт")
+            print("0. Назад")
+
+            option = input("Введите номер пункта меню: ").strip()
+
+            if option == "1":
+                add_route(logistics_system)
+            elif option == "2":
+                add_vehicle(logistics_system)
+            elif option == "0":
+                print("Возврат в главное меню.")
+                break
+            else:
+                print("Ошибка: неверный ввод!")
+        except Exception as e:
+            print(f"Ошибка в меню менеджера: {e}")
+
+
 def admin_menu(admin):
-    logistics_system = LogisticsSystem()
     while True:
         try:
             print("\n--- Меню администратора ---")
             print("1. Управление пользователями")
-            print("2. Добавить маршрут")
-            print("3. Добавить транспорт")
             print("0. Назад")
 
             option = input("Введите номер пункта меню: ").strip()
 
             if option == "1":
                 admin.manage_users()
-            elif option == "2":
-                add_route(logistics_system)
-            elif option == "3":
-                add_vehicle(logistics_system)
             elif option == "0":
                 break
             else:
@@ -64,17 +84,6 @@ def add_route(logistics_system):
         print(f"Маршрут {start} -> {end} успешно добавлен.")
     except ValueError:
         print("Ошибка: расстояние должно быть числом!")
-
-
-def add_vehicle(logistics_system):
-    try:
-        name = input("Введите название транспортного средства: ").strip()
-        capacity = int(input("Введите грузоподъемность (в кг): ").strip())
-        speed = float(input("Введите скорость (в км/ч): ").strip())
-        logistics_system.add_vehicle(name, capacity, speed)
-        print(f"Транспорт {name} успешно добавлен.")
-    except ValueError:
-        print("Ошибка: грузоподъемность и скорость должны быть числами!")
 
 
 def user_menu(user, logistics_system):
@@ -104,6 +113,17 @@ def user_menu(user, logistics_system):
                 print("Ошибка: неверный ввод!")
         except Exception as e:
             print(f"Ошибка в меню пользователя: {e}")
+
+def add_vehicle(logistics_system):
+    try:
+        name = input("Введите название транспортного средства: ").strip()
+        capacity = int(input("Введите грузоподъемность (в кг): ").strip())
+        speed = float(input("Введите скорость (в км/ч): ").strip())
+        logistics_system.add_vehicle(name, capacity, speed)
+        print(f"Транспорт {name} успешно добавлен.")
+    except ValueError:
+        print("Ошибка: грузоподъемность и скорость должны быть числами!")
+
 
 
 

@@ -1,49 +1,39 @@
-#admin.py
 import hashlib
 import json
 import os
 
-class Admin:
+class Manager:
     def __init__(self, username=None):
         self.username = username
         self.users_file = "users.json"
         self.users = self.load_users()
 
     def load_users(self):
+        """Загружает данные пользователей из файла."""
         if not os.path.exists(self.users_file):
             return []
         with open(self.users_file, "r") as file:
             return json.load(file)
 
     def save_users(self):
+        """Сохраняет данные пользователей в файл."""
         with open(self.users_file, "w") as file:
             json.dump(self.users, file, indent=4)
-
-    # def create_first_admin(self):
-    #     """Создание первого администратора, если файл пуст."""
-    #     if not self.users:
-    #         print("Создание первого администратора:")
-    #         login = input("Введите логин администратора: ")
-    #         password = input("Введите пароль: ")
-    #         hashed_password = self.hash_password(password)
-    #         self.users.append({"login": login, "password": hashed_password, "role": "admin"})
-    #         self.save_users()
-    #         print("Администратор создан успешно!")
 
     def hash_password(self, password):
         """Хэширует пароль с использованием SHA-256."""
         return hashlib.sha256(password.encode()).hexdigest()
 
     def login(self):
-        """Авторизация администратора."""
+        """Авторизация менеджера."""
         login = input("Введите логин: ")
         password = input("Введите пароль: ")
         hashed_password = self.hash_password(password)
 
         for user in self.users:
             if user["login"] == login and user["password"] == hashed_password:
-                if user["role"] == "admin" or "meneger":
-                    print("Вход выполнен! Добро пожаловать в систему.")
+                if user["role"] == "manager":
+                    print("Вход выполнен! Добро пожаловать, менеджер.")
                     self.username = login
                     return True
                 else:
@@ -53,7 +43,7 @@ class Admin:
         return False
 
     def manage_users(self):
-        """Управление пользователями: добавление, удаление."""
+        """Управление пользователями: добавление, удаление, просмотр."""
         while True:
             print("\n--- Управление пользователями ---")
             print("1. Добавить пользователя")
@@ -75,10 +65,10 @@ class Admin:
                 print("Ошибка: неверный ввод!")
 
     def add_user(self):
+        """Добавление нового пользователя."""
         username = input("Введите имя нового пользователя: ")
-        self.users.append({"username": username})
         phone = input("Введите номер телефона нового пользователя: ")
-        self.users.append({"phone": phone})
+        self.users.append({"username": username, "phone": phone})
         self.save_users()
         print(f"Пользователь {username} успешно добавлен.")
 
@@ -93,7 +83,7 @@ class Admin:
                 print(f"Пользователь {username} успешно удален.")
                 return
 
-        print("Ошибка: пользователь с таким логином не найден.")
+        print("Ошибка: пользователь с таким именем не найден.")
 
     def show_users(self):
         """Показать список всех пользователей."""
